@@ -1,1 +1,1 @@
-# Proyecto Meeti con Node, PostgreSQL y EJS
+# Proyecto Meeti con Node, PostgreSQL y EJS.
