@@ -1,4 +1,5 @@
 const express = require('express');
+const expressLayouts = require('express-ejs-layouts');
 const path = require('path');
 const router = require('./routes');
 
@@ -7,6 +8,8 @@ require('dotenv').config({path: 'variables.env'});
 
 // crear una app de express
 const app = express();
+
+app.use(expressLayouts);
 
 // Habilitar EJS como template engine
 app.set('view engine', 'ejs');
