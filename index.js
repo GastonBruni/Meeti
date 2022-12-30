@@ -1,13 +1,24 @@
 const express = require('express');
 const expressLayouts = require('express-ejs-layouts');
 const path = require('path');
+const bodyParser = require('body-parser');
 const router = require('./routes');
 
-// importar valores de variables.env
+
+// Configuracion y Modelos BD
+const db = require('./config/db');
+    require('./models/Usuarios');
+    db.sync().then(() => console.log('DB Conectada')).catch((error) => {console.log(error)});
+
+// Variables de Desarrollo
 require('dotenv').config({path: 'variables.env'});
 
-// crear una app de express
+// Aplicacion Principal
 const app = express();
+
+// Body parser, leer formularios
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended : true}));
 
 app.use(expressLayouts);
 
