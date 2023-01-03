@@ -23,9 +23,8 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended : true}));
 
-app.use(expressLayouts);
-
 // Habilitar EJS como template engine
+app.use(expressLayouts);
 app.set('view engine', 'ejs');
 
 // Ubicacion vistas

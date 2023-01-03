@@ -21,16 +21,16 @@
         </nav>
     </header>
 
-    <% if(locals.mensajes) { %>
+    <% if (locals.mensajes) { %>
         <% const categoria = Object.keys(locals.mensajes) %>
-            <% if(categoria.length) { %> 
-                <% locals.mensajes[categoria].forEach(alerta => {  %>
-                    <div class="alertas">
-                        <p class="alerta" <%= categoria %> ><%= alerta  %></p>
-                    </div>
-                <% }) %> 
-            <% } %> 
-    <% } %>   
+        <% if(categoria.length) { %>
+             <% locals.mensajes[categoria].forEach(alerta => {  %>
+                 <div class="alertas">
+                    <p class="alerta <%= categoria %>"> <%= alerta %></p>
+                 </div>
+             <% }) %>
+        <% } %>
+     <% } %>
 
     <%- body %>
 
