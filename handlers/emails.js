@@ -17,7 +17,7 @@ exports.enviarEmails = async (opciones) => {
     console.log(opciones);
 
     // leer archivos para el Email
-    const archivo = __dirname + `../views/${opciones.archivo}.ejs`;
+    const archivo = __dirname + `/../views/emails/${opciones.archivo}.ejs`;
 
     // compilarlo
     const compilado = ejs.compile(fs.readFileSync(archivo, 'utf8'));

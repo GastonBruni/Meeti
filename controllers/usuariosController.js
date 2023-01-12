@@ -42,17 +42,16 @@ exports.crearNuevaCuenta = async (req, res) => {
     // Flash Message y redireccionar
     req.flash('exito', 'Hemos enviado un E-mail, confirma tu cuenta');
     res.redirect('/iniciar-sesion');
+
     } catch (error) {
         
-        // extraer el message de los errores
-        const erroresSequelize = Object.values(error.errors).map(err => err.message);
-        console.log(erroresSequelize);
+        console.log(error)
 
+        // extraer el message de los errores
+        const erroresSequelize = error.errors.map(err => err.message);
 
         // extraer unicamente el msg de los errores
         const errExp = erroresExpress.array().map(err => err.msg);
-        console.log(errExp);
-
 
         // unirlos
         const listaErrores = [...erroresSequelize, ...errExp];
@@ -65,8 +64,27 @@ exports.crearNuevaCuenta = async (req, res) => {
 
 }
 
-// Formulario para iniciar sesion
+// Confirma la cuenta del usuario
+exports.confirmarCuenta = async (req, res, next) => {
+    // Verificar que el usuario existe
+    const usuario = await Usuarios.findOne({ where: { email: req.params.correo }});
 
+    // sino existe, redireccionar
+    if(!usuario){
+        req.flash('error','No existe esa cuenta');
+        res.redirect('/crear-cuenta');
+        return next();
+    }
+    
+    // si existe, confirmar cuenta y redireccionar
+    usuario.activo = 1;
+    await usuario.save();
+
+    req.flash('exito', 'La cuenta se ha confirmado, ya puede iniciar sesión');
+    res.redirect('/iniciar-sesion');
+}
+
+// Formulario para iniciar sesion
 exports.formIniciarSesion =  (req, res) => {
     res.render('iniciar-sesion', {
         nombrePagina: 'Iniciar Sesión'
