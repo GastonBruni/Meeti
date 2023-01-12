@@ -11,14 +11,24 @@ const Usuarios = db.define('usuarios', {
     nombre: Sequelize.STRING(60),
     imagen: Sequelize.STRING(60),
     email: {
-        type: Sequelize.STRING(30),
-        allowNull: false,
+        type: Sequelize.STRING,
+        allowNull: { args: false, msg: "El email es obligatorio" },
+        unique: true,
         validate: {
-            isEmail: { msg: 'Agrega un correo valido'}
-        },
-        unique: {
-            args: true,
-            msg: 'Usuario ya registrado'
+            isEmail: { args: true, msg: "Porfavor ingresar un email valido" },
+            isUnique: function (value, next) {
+                var self = this;
+                Usuarios.findOne({where: {email: value}})
+                    .then(function(usuario){
+                        if(usuario && self.id !== usuario.id){
+                            return next('El email ya esta registrado');
+                        }
+                        return next();
+                })
+                .catch(function(err){
+                    return next(err);
+                });
+            }
         }
     },
     password: {

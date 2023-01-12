@@ -45,15 +45,19 @@ exports.crearNuevaCuenta = async (req, res) => {
     } catch (error) {
         
         // extraer el message de los errores
-        const erroresSequelize = error.errors.map(err => err.message);
-        
+        const erroresSequelize = Object.values(error.errors).map(err => err.message);
+        console.log(erroresSequelize);
+
+
         // extraer unicamente el msg de los errores
         const errExp = erroresExpress.array().map(err => err.msg);
- 
+        console.log(errExp);
+
+
         // unirlos
         const listaErrores = [...erroresSequelize, ...errExp];
 
-        console.log(errExp);
+        console.log(listaErrores);
 
         req.flash('error', listaErrores);
         res.redirect('/crear-cuenta');
