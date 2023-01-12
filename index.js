@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const flash = require('connect-flash');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
+const passport = require('./config/passport');
 const router = require('./routes');
 
 
@@ -42,7 +43,11 @@ app.use(session({
     key: process.env.KEY,
     resave: false,
     saveUninitialized: false
-}))
+}));
+
+// Inicializar passport
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Agrega flash messages
 app.use(flash());
