@@ -1,13 +1,15 @@
 const Usuarios = require('../models/Usuarios');
 const expressValidator = require('express-validator');
+const enviarEmails = require('../handlers/emails');
 
-
+// Formulario para iniciar sesion
 exports.formCrearCuenta =  (req, res) => {
     res.render('crear-cuenta', {
         nombrePagina: 'Crea tu Cuenta'
     })
 };
 
+// Formulario para crear cuenta
 exports.crearNuevaCuenta = async (req, res) => {
     const usuario = req.body;
 
@@ -24,10 +26,22 @@ exports.crearNuevaCuenta = async (req, res) => {
 
     try {
         
-    const nuevoUsuario = await Usuarios.create(usuario);
+        await Usuarios.create(usuario);
 
-    // TODO: Flash Message y redireccionar
-    console.log('Usuario creado', nuevoUsuario);
+        // Url de confirmación
+        const url = `http://${req.headers.host}/confirmar-cuenta/${usuario.email}`;
+
+        // Enviar email de confirmación
+        await enviarEmails.enviarEmails({
+            usuario,
+            url,
+            subject: 'Confirma tu cuenta de Meeti',
+            archivo: 'confirmar-cuenta'
+        })
+
+    // Flash Message y redireccionar
+    req.flash('exito', 'Hemos enviado un E-mail, confirma tu cuenta');
+    res.redirect('/iniciar-sesion');
     } catch (error) {
         
         // extraer el message de los errores
@@ -46,3 +60,11 @@ exports.crearNuevaCuenta = async (req, res) => {
     }
 
 }
+
+// Formulario para iniciar sesion
+
+exports.formIniciarSesion =  (req, res) => {
+    res.render('iniciar-sesion', {
+        nombrePagina: 'Iniciar Sesión'
+    })
+};
