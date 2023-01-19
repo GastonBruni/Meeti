@@ -5,4 +5,4 @@ exports.autenticarUsuario = passport.authenticate('local', {
     failureRedirect: '/iniciar-sesion',
     failureFlash: true,
     badRequestMessage: 'Ambos campos son obligatorios'
-})
+});
