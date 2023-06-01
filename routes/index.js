@@ -27,11 +27,11 @@ module.exports = function () {
     // Nuevos grupos
     router.get('/nuevo-grupo', 
             authController.usuarioAutenticado,
-            gruposController.formNuevoGrupo) ;
+            gruposController.formNuevoGrupo);
 
     router.post('/nuevo-grupo',
-            gruposController.crearGrupo
-    );        
+             gruposController.subirImagen, 
+             gruposController.crearGrupo );      
             
     return router;
 }
