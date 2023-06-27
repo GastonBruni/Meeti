@@ -8,13 +8,13 @@
         <% if(grupo.imagen) {%>
         <div class="campo">
             <label>Imagen Actual</label>
-            <img src="/uploads/grupos<%= grupo.imagen %>" widht="200">
-        </div>
-        <div class="campo enviar">
-            <input type="submit" value="Subir Imagen" class="btn btn-rosa">
+            <img src="/uploads/grupos/<%= grupo.imagen %>" widht="200">
         </div>
         <% } else { %>
             <p>No hay imagen en el grupo</p>
             <% } %>
+        <div class="campo enviar">
+            <input type="submit" value="Subir Imagen" class="btn btn-rosa">
+        </div>
     </form>
 </main>
