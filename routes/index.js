@@ -38,6 +38,16 @@ module.exports = function () {
     router.get('/editar-grupo/:grupoId',
         authController.usuarioAutenticado, 
         gruposController.formEditarGrupo);
+
+    router.post('/editar-grupo/:grupoId',
+        authController.usuarioAutenticado, 
+        gruposController.editarGrupo);
+
+    // Editar imagenes    
+    router.get('/imagen-grupo/:grupoId',
+        authController.usuarioAutenticado, 
+        gruposController.formEditarImagen
+    );
              
     return router;
 }

@@ -102,3 +102,39 @@ exports.formEditarGrupo = async (req, res) => {
         categorias
     })
 }
+
+// Guardar los cambios en la DB
+exports.editarGrupo = async (req, res, next) => {
+    const grupo = await Grupos.findOne({where: {id : req.params.grupoId, usuarioId : req.user.id }});
+
+    // Si no existe ese grupo o no es el dueño
+    if(!grupo) {
+        req.flash('error','Operacion no válida');
+        res.redirect('/administracion');
+        return next();
+    }
+
+    // Salio todo bien, leer los valores
+    const {nombre, descripcion, categoriaId, url} = req.body;
+
+    // Asignamos los valores
+    grupo.nombre = nombre;
+    grupo.descripcion = descripcion;
+    grupo.categoriaId = categoriaId;
+    grupo.url = url;
+
+    // Guardamos en la DB
+    await grupo.save();
+    req.flash('exito','Cambios Almacenados Correctamente');
+    res.redirect('/administracion');
+}
+
+// Muestra el form para editar imagen de grupo
+exports.formEditarImagen = async (req, res) => {
+    const grupo = await Grupos.findByPk(req.params.grupoId);
+
+    res.render('imagen-grupo', {
+        nombrePagina : `Editar Imagen Grupo : ${grupo.nombre}`,
+        grupo
+    })
+}
