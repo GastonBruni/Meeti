@@ -21,17 +21,23 @@ module.exports = function () {
 
     // Panel de administración
     router.get('/administracion', 
-            authController.usuarioAutenticado,
-            adminController.panelAdministracion);
+        authController.usuarioAutenticado,
+        adminController.panelAdministracion);
 
     // Nuevos grupos
     router.get('/nuevo-grupo', 
-            authController.usuarioAutenticado,
-            gruposController.formNuevoGrupo);
+        authController.usuarioAutenticado,
+        gruposController.formNuevoGrupo);
 
     router.post('/nuevo-grupo',
-             gruposController.subirImagen, 
-             gruposController.crearGrupo );      
+        authController.usuarioAutenticado,
+        gruposController.subirImagen, 
+        gruposController.crearGrupo);      
             
+    // Editar grupos
+    router.get('/editar-grupo/:grupoId',
+        authController.usuarioAutenticado, 
+        gruposController.formEditarGrupo);
+             
     return router;
 }
