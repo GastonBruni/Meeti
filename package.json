@@ -4,7 +4,9 @@
   "description": "Proyecto Meeti con Node, PostgreSQL y EJS",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon ./index.js"
+    "dev": "nodemon ./index.js",
+    "start": "concurrently \"npm run dev\" \"npm run watch\" ",
+    "watch": "webpack --mode production --env production"
   },
   "repository": {
     "type": "git",
@@ -17,10 +19,16 @@
   },
   "homepage": "https://github.com/GastonBruni/Meeti#readme",
   "devDependencies": {
-    "nodemon": "^2.0.20"
+    "@babel/core": "^7.22.5",
+    "@babel/preset-env": "^7.22.5",
+    "babel-loader": "^9.1.2",
+    "nodemon": "^2.0.20",
+    "webpack": "^5.88.1",
+    "webpack-cli": "^5.1.4"
   },
   "dependencies": {
     "bcrypt-nodejs": "^0.0.3",
+    "concurrently": "^8.2.0",
     "connect-flash": "^0.1.1",
     "cookie-parser": "^1.4.6",
     "dotenv": "^16.0.3",
